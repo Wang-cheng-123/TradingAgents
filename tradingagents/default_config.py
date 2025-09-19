@@ -13,6 +13,10 @@ DEFAULT_CONFIG = {
     "deep_think_llm": "o4-mini",
     "quick_think_llm": "gpt-4o-mini",
     "backend_url": "https://api.openai.com/v1",
+    "api_key": None,
+    "embedding_backend_url": "http://192.168.196.150:11434/api/embeddings",
+    "embedding_model": "Qwen3-Embedding-8B",
+    "embedding_api_key": None,
     # Debate and discussion settings
     "max_debate_rounds": 1,
     "max_risk_discuss_rounds": 1,

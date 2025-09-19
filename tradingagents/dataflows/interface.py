@@ -1,4 +1,4 @@
-from typing import Annotated, Dict
+﻿from typing import Annotated, Dict
 from .reddit_utils import fetch_top_from_category
 from .yfin_utils import *
 from .stockstats_utils import *
@@ -137,7 +137,7 @@ def get_finnhub_company_insider_transactions(
     return (
         f"## {ticker} insider transactions from {before} to {curr_date}:\n"
         + result_str
-        + "The change field reflects the variation in share count—here a negative number indicates a reduction in holdings—while share specifies the total number of shares involved. The transactionPrice denotes the per-share price at which the trade was executed, and transactionDate marks when the transaction occurred. The name field identifies the insider making the trade, and transactionCode (e.g., S for sale) clarifies the nature of the transaction. FilingDate records when the transaction was officially reported, and the unique id links to the specific SEC filing, as indicated by the source. Additionally, the symbol ties the transaction to a particular company, isDerivative flags whether the trade involves derivative securities, and currency notes the currency context of the transaction."
+        + "The change field reflects the variation in share count鈥攈ere a negative number indicates a reduction in holdings鈥攚hile share specifies the total number of shares involved. The transactionPrice denotes the per-share price at which the trade was executed, and transactionDate marks when the transaction occurred. The name field identifies the insider making the trade, and transactionCode (e.g., S for sale) clarifies the nature of the transaction. FilingDate records when the transaction was officially reported, and the unique id links to the specific SEC filing, as indicated by the source. Additionally, the symbol ties the transaction to a particular company, isDerivative flags whether the trade involves derivative securities, and currency notes the currency context of the transaction."
     )
 
 
@@ -704,7 +704,10 @@ def get_YFin_data(
 
 def get_stock_news_openai(ticker, curr_date):
     config = get_config()
-    client = OpenAI(base_url=config["backend_url"])
+    client_kwargs = {"base_url": config["backend_url"]}
+    if config.get("api_key"):
+        client_kwargs["api_key"] = config["api_key"]
+    client = OpenAI(**client_kwargs)
 
     response = client.responses.create(
         model=config["quick_think_llm"],
@@ -739,7 +742,10 @@ def get_stock_news_openai(ticker, curr_date):
 
 def get_global_news_openai(curr_date):
     config = get_config()
-    client = OpenAI(base_url=config["backend_url"])
+    client_kwargs = {"base_url": config["backend_url"]}
+    if config.get("api_key"):
+        client_kwargs["api_key"] = config["api_key"]
+    client = OpenAI(**client_kwargs)
 
     response = client.responses.create(
         model=config["quick_think_llm"],
@@ -774,7 +780,10 @@ def get_global_news_openai(curr_date):
 
 def get_fundamentals_openai(ticker, curr_date):
     config = get_config()
-    client = OpenAI(base_url=config["backend_url"])
+    client_kwargs = {"base_url": config["backend_url"]}
+    if config.get("api_key"):
+        client_kwargs["api_key"] = config["api_key"]
+    client = OpenAI(**client_kwargs)
 
     response = client.responses.create(
         model=config["quick_think_llm"],
@@ -805,3 +814,5 @@ def get_fundamentals_openai(ticker, curr_date):
     )
 
     return response.output[1].content[0].text
+
+
